@@ -1,0 +1,29 @@
+{
+  "name": "simple-greeting-bot",
+  "description": "Simple bot for greetings",
+  "idle_session_ttl": 300,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.4,
+      "intents": {
+        "HelloIntent": {
+          "description": "Greet the user",
+          "sample_utterances": [
+            "Hello",
+            "Hi",
+            "Good morning"
+          ]
+        },
+        "GoodbyeIntent": {
+          "description": "Say goodbye to the user",
+          "sample_utterances": [
+            "Goodbye",
+            "Bye",
+            "See you later"
+          ]
+        }
+      }
+    }
+  }
+}

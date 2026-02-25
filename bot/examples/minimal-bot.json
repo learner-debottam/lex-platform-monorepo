@@ -1,0 +1,11 @@
+{
+  "name": "minimal-bot",
+  "description": "Minimal bot with only locale configuration",
+  "idle_session_ttl": 300,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.4
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "name": "appointment-bot",
+  "description": "Medical appointment scheduling bot",
+  "idle_session_ttl": 450,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.45,
+      "intents": {
+        "ScheduleAppointment": {
+          "description": "Schedule a medical appointment",
+          "sample_utterances": [
+            "Schedule an appointment",
+            "Book appointment for {AppointmentDate}",
+            "I need to see the doctor"
+          ],
+          "slots": {
+            "AppointmentDate": {
+              "description": "Appointment date",
+              "slot_type": "AMAZON.Date",
+              "required": true,
+              "prompt": "What date works for you?"
+            },
+            "AppointmentTime": {
+              "description": "Appointment time",
+              "slot_type": "AMAZON.Time",
+              "required": true,
+              "prompt": "What time would you prefer?"
+            },
+            "PhoneNumber": {
+              "description": "Contact phone number",
+              "slot_type": "AMAZON.PhoneNumber",
+              "required": true,
+              "prompt": "What's your phone number?"
+            }
+          }
+        },
+        "CancelAppointment": {
+          "description": "Cancel an existing appointment",
+          "sample_utterances": [
+            "Cancel my appointment",
+            "I need to cancel"
+          ]
+        }
+      }
+    }
+  }
+}

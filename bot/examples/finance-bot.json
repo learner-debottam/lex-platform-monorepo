@@ -1,0 +1,231 @@
+{
+  "name": "finance-bot",
+  "description": "Financial services bot for banking and investment inquiries",
+  "idle_session_ttl": 600,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.45,
+      "slot_types": {
+        "AccountType": {
+          "description": "Type of bank account",
+          "values": ["Savings", "Current", "ISA", "Business", "Joint"]
+        },
+        "TransactionType": {
+          "description": "Type of transaction",
+          "values": ["Transfer", "Payment", "Direct Debit", "Standing Order"]
+        },
+        "InvestmentType": {
+          "description": "Type of investment product",
+          "values": ["Stocks", "Bonds", "Mutual Funds", "ETF", "Pension"]
+        },
+        "LoanType": {
+          "description": "Type of loan",
+          "values": ["Personal", "Mortgage", "Car", "Business"]
+        }
+      },
+      "intents": {
+        "CheckBalance": {
+          "description": "Check account balance",
+          "sample_utterances": [
+            "What is my balance",
+            "Check balance for {AccountType} account",
+            "How much money do I have",
+            "Show my {AccountType} balance"
+          ],
+          "slots": {
+            "AccountType": {
+              "description": "Account to check balance for",
+              "slot_type": "AccountType",
+              "required": true,
+              "prompt": "Which account would you like to check?"
+            }
+          }
+        },
+        "TransferMoney": {
+          "description": "Transfer money between accounts",
+          "sample_utterances": [
+            "Transfer money",
+            "Send {Amount} to {AccountType}",
+            "Move funds",
+            "Transfer {Amount} pounds"
+          ],
+          "slots": {
+            "Amount": {
+              "description": "Amount to transfer",
+              "slot_type": "AMAZON.Number",
+              "required": true,
+              "prompt": "How much would you like to transfer?"
+            },
+            "FromAccount": {
+              "description": "Source account",
+              "slot_type": "AccountType",
+              "required": true,
+              "prompt": "Which account would you like to transfer from?"
+            },
+            "ToAccount": {
+              "description": "Destination account",
+              "slot_type": "AccountType",
+              "required": true,
+              "prompt": "Which account would you like to transfer to?"
+            }
+          }
+        },
+        "ViewTransactions": {
+          "description": "View recent transactions",
+          "sample_utterances": [
+            "Show my transactions",
+            "Recent transactions for {AccountType}",
+            "Transaction history",
+            "What are my recent {TransactionType} transactions"
+          ],
+          "slots": {
+            "AccountType": {
+              "description": "Account to view transactions for",
+              "slot_type": "AccountType",
+              "required": true,
+              "prompt": "Which account would you like to view?"
+            },
+            "TransactionType": {
+              "description": "Type of transaction to filter",
+              "slot_type": "TransactionType",
+              "required": false,
+              "prompt": "Any specific transaction type?"
+            },
+            "DateRange": {
+              "description": "Date range for transactions",
+              "slot_type": "AMAZON.Date",
+              "required": false,
+              "prompt": "From which date?"
+            }
+          }
+        },
+        "ApplyLoan": {
+          "description": "Apply for a loan",
+          "sample_utterances": [
+            "Apply for a loan",
+            "I need a {LoanType} loan",
+            "Loan application",
+            "Apply for {LoanType}"
+          ],
+          "slots": {
+            "LoanType": {
+              "description": "Type of loan to apply for",
+              "slot_type": "LoanType",
+              "required": true,
+              "prompt": "What type of loan are you interested in?"
+            },
+            "Amount": {
+              "description": "Loan amount requested",
+              "slot_type": "AMAZON.Number",
+              "required": true,
+              "prompt": "How much would you like to borrow?"
+            },
+            "PhoneNumber": {
+              "description": "Contact phone number",
+              "slot_type": "AMAZON.PhoneNumber",
+              "required": true,
+              "prompt": "What's your contact number?"
+            }
+          }
+        },
+        "InvestmentInquiry": {
+          "description": "Inquire about investment products",
+          "sample_utterances": [
+            "Tell me about investments",
+            "What are {InvestmentType}",
+            "Investment options",
+            "I want to invest in {InvestmentType}"
+          ],
+          "slots": {
+            "InvestmentType": {
+              "description": "Type of investment",
+              "slot_type": "InvestmentType",
+              "required": false,
+              "prompt": "Which investment type interests you?"
+            }
+          }
+        },
+        "BlockCard": {
+          "description": "Block or freeze a card",
+          "sample_utterances": [
+            "Block my card",
+            "Freeze my card",
+            "I lost my card",
+            "Card stolen"
+          ],
+          "slots": {
+            "CardLastFourDigits": {
+              "description": "Last 4 digits of card",
+              "slot_type": "AMAZON.Number",
+              "required": true,
+              "prompt": "What are the last 4 digits of your card?"
+            }
+          }
+        },
+        "SpeakToAdvisor": {
+          "description": "Request to speak with financial advisor",
+          "sample_utterances": [
+            "Speak to an advisor",
+            "Talk to someone",
+            "I need help",
+            "Connect me to advisor"
+          ]
+        }
+      }
+    },
+    "en_US": {
+      "description": "American English locale",
+      "confidence_threshold": 0.45,
+      "slot_types": {
+        "AccountType": {
+          "description": "Type of bank account",
+          "values": ["Checking", "Savings", "Money Market", "CD", "IRA"]
+        },
+        "LoanType": {
+          "description": "Type of loan",
+          "values": ["Personal", "Mortgage", "Auto", "Student", "Business"]
+        }
+      },
+      "intents": {
+        "CheckBalance": {
+          "description": "Check account balance",
+          "sample_utterances": [
+            "What's my balance",
+            "Check {AccountType} balance",
+            "Account balance"
+          ],
+          "slots": {
+            "AccountType": {
+              "description": "Account to check",
+              "slot_type": "AccountType",
+              "required": true,
+              "prompt": "Which account?"
+            }
+          }
+        },
+        "ApplyLoan": {
+          "description": "Apply for a loan",
+          "sample_utterances": [
+            "Apply for loan",
+            "I need a {LoanType} loan"
+          ],
+          "slots": {
+            "LoanType": {
+              "description": "Type of loan",
+              "slot_type": "LoanType",
+              "required": true,
+              "prompt": "What type of loan?"
+            },
+            "Amount": {
+              "description": "Loan amount",
+              "slot_type": "AMAZON.Number",
+              "required": true,
+              "prompt": "How much?"
+            }
+          }
+        }
+      }
+    }
+  }
+}

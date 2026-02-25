@@ -1,0 +1,77 @@
+{
+  "name": "ecommerce-bot",
+  "description": "E-commerce order tracking and product inquiry bot",
+  "idle_session_ttl": 600,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.4,
+      "slot_types": {
+        "ProductCategory": {
+          "description": "Product categories",
+          "values": ["Electronics", "Clothing", "Home", "Books", "Sports"]
+        },
+        "OrderStatus": {
+          "description": "Order status types",
+          "values": ["Pending", "Shipped", "Delivered", "Cancelled"]
+        }
+      },
+      "intents": {
+        "TrackOrderIntent": {
+          "description": "Track order status",
+          "sample_utterances": [
+            "Track my order",
+            "Where is my order {OrderNumber}",
+            "Order status"
+          ],
+          "slots": {
+            "OrderNumber": {
+              "description": "Order reference number",
+              "slot_type": "AMAZON.AlphaNumeric",
+              "required": true,
+              "prompt": "What is your order number?"
+            }
+          }
+        },
+        "ReturnItemIntent": {
+          "description": "Initiate product return",
+          "sample_utterances": [
+            "I want to return an item",
+            "Return order {OrderNumber}",
+            "Start a return"
+          ],
+          "slots": {
+            "OrderNumber": {
+              "description": "Order to return",
+              "slot_type": "AMAZON.AlphaNumeric",
+              "required": true,
+              "prompt": "Which order number would you like to return?"
+            },
+            "ReturnReason": {
+              "description": "Reason for return",
+              "slot_type": "AMAZON.FreeFormInput",
+              "required": true,
+              "prompt": "What is the reason for your return?"
+            }
+          }
+        },
+        "ProductSearchIntent": {
+          "description": "Search for products",
+          "sample_utterances": [
+            "Show me {ProductCategory}",
+            "Search for products",
+            "Find {ProductCategory} items"
+          ],
+          "slots": {
+            "ProductCategory": {
+              "description": "Category to search",
+              "slot_type": "ProductCategory",
+              "required": true,
+              "prompt": "Which category are you interested in?"
+            }
+          }
+        }
+      }
+    }
+  }
+}

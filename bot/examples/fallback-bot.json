@@ -1,0 +1,24 @@
+{
+  "name": "fallback-bot",
+  "description": "Bot with fallback intent only",
+  "idle_session_ttl": 300,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.4,
+      "intents": {
+        "FallbackIntent": {
+          "description": "Fallback intent with no slots or utterances"
+        },
+        "HelpIntent": {
+          "description": "Help intent",
+          "sample_utterances": [
+            "Help",
+            "I need help",
+            "Can you help me"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,94 @@
+{
+  "name": "restaurant-bot",
+  "description": "Restaurant reservation and menu inquiry bot",
+  "idle_session_ttl": 900,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.4,
+      "slot_types": {
+        "MealType": {
+          "description": "Type of meal served",
+          "values": ["Breakfast", "Lunch", "Dinner"]
+        },
+        "PartySize": {
+          "description": "Number of people in dining party",
+          "values": ["1", "2", "3", "4", "5", "6"]
+        }
+      },
+      "intents": {
+        "BookTableIntent": {
+          "description": "Book a table at the restaurant",
+          "sample_utterances": [
+            "Book a table for {PartySize} people",
+            "Reserve a table",
+            "I need a table for {PartySize}"
+          ],
+          "slots": {
+            "PartySize": {
+              "description": "Number of people dining",
+              "slot_type": "PartySize",
+              "required": true,
+              "prompt": "How many people will be dining?"
+            },
+            "ReservationDate": {
+              "description": "Date of reservation",
+              "slot_type": "AMAZON.Date",
+              "required": true,
+              "prompt": "What date would you like to book?"
+            },
+            "ReservationTime": {
+              "description": "Time of reservation",
+              "slot_type": "AMAZON.Time",
+              "required": true,
+              "prompt": "What time would you prefer?"
+            }
+          }
+        },
+        "MenuIntent": {
+          "description": "View restaurant menu",
+          "sample_utterances": [
+            "Show me the menu",
+            "What's on the menu for {MealType}",
+            "Menu please"
+          ],
+          "slots": {
+            "MealType": {
+              "description": "Type of meal",
+              "slot_type": "MealType",
+              "required": false,
+              "prompt": "Which meal are you interested in?"
+            }
+          }
+        }
+      }
+    },
+    "en_US": {
+      "description": "American English locale",
+      "confidence_threshold": 0.4,
+      "slot_types": {
+        "MealType": {
+          "description": "Type of meal served",
+          "values": ["Breakfast", "Lunch", "Dinner"]
+        }
+      },
+      "intents": {
+        "BookTableIntent": {
+          "description": "Book a table at the restaurant",
+          "sample_utterances": [
+            "Book a table",
+            "Make a reservation"
+          ],
+          "slots": {
+            "ReservationDate": {
+              "description": "Date of reservation",
+              "slot_type": "AMAZON.Date",
+              "required": true,
+              "prompt": "What date?"
+            }
+          }
+        }
+      }
+    }
+  }
+}

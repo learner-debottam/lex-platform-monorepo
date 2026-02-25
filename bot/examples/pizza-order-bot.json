@@ -1,0 +1,61 @@
+{
+  "name": "pizza-order-bot",
+  "description": "Pizza ordering bot",
+  "idle_session_ttl": 600,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.4,
+      "slot_types": {
+        "PizzaSize": {
+          "description": "Size of pizza",
+          "values": ["Small", "Medium", "Large", "Extra Large"]
+        },
+        "PizzaTopping": {
+          "description": "Pizza toppings",
+          "values": ["Pepperoni", "Mushroom", "Cheese", "Veggie", "Hawaiian"]
+        },
+        "Crust": {
+          "description": "Type of crust",
+          "values": ["Thin", "Thick", "Stuffed"]
+        }
+      },
+      "intents": {
+        "OrderPizza": {
+          "description": "Order a pizza",
+          "sample_utterances": [
+            "Order a pizza",
+            "I want a {PizzaSize} {PizzaTopping} pizza",
+            "Get me a pizza"
+          ],
+          "slots": {
+            "PizzaSize": {
+              "description": "Size of the pizza",
+              "slot_type": "PizzaSize",
+              "required": true,
+              "prompt": "What size pizza would you like?"
+            },
+            "PizzaTopping": {
+              "description": "Pizza topping selection",
+              "slot_type": "PizzaTopping",
+              "required": true,
+              "prompt": "What toppings would you like?"
+            },
+            "Crust": {
+              "description": "Crust type selection",
+              "slot_type": "Crust",
+              "required": false,
+              "prompt": "What type of crust?"
+            },
+            "DeliveryTime": {
+              "description": "Delivery time",
+              "slot_type": "AMAZON.Time",
+              "required": false,
+              "prompt": "When would you like it delivered?"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "booking-bot",
+  "description": "Hotel room booking bot",
+  "idle_session_ttl": 600,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.5,
+      "slot_types": {
+        "RoomType": {
+          "description": "Type of hotel room",
+          "values": ["Single", "Double", "Suite", "Deluxe"]
+        }
+      },
+      "intents": {
+        "BookRoomIntent": {
+          "description": "Book a hotel room",
+          "slots": {
+            "RoomType": {
+              "description": "Type of room to book",
+              "slot_type": "RoomType",
+              "required": true,
+              "prompt": "What type of room would you like?"
+            },
+            "CheckInDate": {
+              "description": "Check-in date",
+              "slot_type": "AMAZON.Date",
+              "required": true,
+              "prompt": "When would you like to check in?"
+            }
+          }
+        }
+      }
+    }
+  }
+}

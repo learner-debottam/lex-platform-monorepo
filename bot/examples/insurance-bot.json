@@ -1,0 +1,105 @@
+{
+  "name": "insurance-bot",
+  "description": "Insurance claims and policy management bot",
+  "idle_session_ttl": 900,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.4,
+      "slot_types": {
+        "InsuranceType": {
+          "description": "Type of insurance",
+          "values": ["Car", "Home", "Life", "Travel", "Health"]
+        },
+        "ClaimType": {
+          "description": "Type of claim",
+          "values": ["Accident", "Theft", "Damage", "Medical", "Loss"]
+        }
+      },
+      "intents": {
+        "FileClaimIntent": {
+          "description": "File an insurance claim",
+          "sample_utterances": [
+            "File a claim",
+            "I need to make a {ClaimType} claim",
+            "Report an incident"
+          ],
+          "slots": {
+            "PolicyNumber": {
+              "description": "Insurance policy number",
+              "slot_type": "AMAZON.AlphaNumeric",
+              "required": true,
+              "prompt": "What is your policy number?"
+            },
+            "ClaimType": {
+              "description": "Type of claim",
+              "slot_type": "ClaimType",
+              "required": true,
+              "prompt": "What type of claim is this?"
+            },
+            "IncidentDate": {
+              "description": "When incident occurred",
+              "slot_type": "AMAZON.Date",
+              "required": true,
+              "prompt": "When did the incident occur?"
+            }
+          }
+        },
+        "GetQuoteIntent": {
+          "description": "Get insurance quote",
+          "sample_utterances": [
+            "Get a quote",
+            "How much for {InsuranceType} insurance",
+            "Quote for {InsuranceType}"
+          ],
+          "slots": {
+            "InsuranceType": {
+              "description": "Type of insurance needed",
+              "slot_type": "InsuranceType",
+              "required": true,
+              "prompt": "What type of insurance do you need?"
+            },
+            "PostCode": {
+              "description": "Customer postcode",
+              "slot_type": "AMAZON.PostalAddress",
+              "required": true,
+              "prompt": "What is your postcode?"
+            }
+          }
+        },
+        "CheckClaimStatusIntent": {
+          "description": "Check claim status",
+          "sample_utterances": [
+            "Check my claim",
+            "Claim status for {ClaimNumber}",
+            "Where is my claim"
+          ],
+          "slots": {
+            "ClaimNumber": {
+              "description": "Claim reference number",
+              "slot_type": "AMAZON.AlphaNumeric",
+              "required": true,
+              "prompt": "What is your claim number?"
+            }
+          }
+        },
+        "PolicyDetailsIntent": {
+          "description": "View policy details",
+          "sample_utterances": [
+            "Show my policy",
+            "Policy details",
+            "What does my policy cover"
+          ],
+          "slots": {
+            "PolicyNumber": {
+              "description": "Policy number",
+              "slot_type": "AMAZON.AlphaNumeric",
+              "required": true,
+              "prompt": "What is your policy number?"
+            }
+          }
+        }
+      }
+    }
+  }
+}

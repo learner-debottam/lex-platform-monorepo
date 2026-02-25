@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Lex V2 Bot Configuration",
+  "description": "Schema for bot_config JSON consumed by the lexv2-bot Terraform module.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "idle_session_ttl", "locales"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "idle_session_ttl": {
+      "type": "integer",
+      "minimum": 60,
+      "description": "Idle session timeout in seconds."
+    },
+    "locales": {
+      "type": "object",
+      "description": "Map of Lex locale IDs (e.g., en_US, en_GB) to locale configuration.",
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-z]{2}_[A-Z]{2}$": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["confidence_threshold"],
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "confidence_threshold": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "slot_types": {
+              "type": "object",
+              "description": "Optional custom slot types for this locale.",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["values"],
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "values": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            },
+            "intents": {
+              "type": "object",
+              "description": "Optional intents for this locale.",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["sample_utterances"],
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "sample_utterances": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "fulfillment_lambda_name": {
+                    "type": "string",
+                    "description": "Optional logical name of the Lambda function used for fulfillment. Must be present in the lambda_arns map passed to the module."
+                  },
+                  "slots": {
+                    "type": "object",
+                    "description": "Optional slots required by this intent.",
+                    "additionalProperties": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": ["slot_type", "required", "prompt"],
+                      "properties": {
+                        "description": {
+                          "type": "string"
+                        },
+                        "slot_type": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Either an Amazon built-in slot type (e.g., AMAZON.Date) or the name of a custom slot type defined under slot_types for this locale."
+                        },
+                        "required": {
+                          "type": "boolean",
+                          "description": "Whether this slot is required."
+                        },
+                        "prompt": {
+                          "type": "string",
+                          "minLength": 1,
+                          "description": "Prompt the bot will use to elicit this slot."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
+

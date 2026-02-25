@@ -1,0 +1,83 @@
+{
+  "name": "utilities-bot",
+  "description": "Utilities customer service bot for billing and outages",
+  "idle_session_ttl": 600,
+  "locales": {
+    "en_GB": {
+      "description": "British English locale",
+      "confidence_threshold": 0.4,
+      "slot_types": {
+        "UtilityType": {
+          "description": "Type of utility service",
+          "values": ["Electricity", "Gas", "Water", "Internet"]
+        },
+        "PaymentMethod": {
+          "description": "Payment methods",
+          "values": ["Credit Card", "Debit Card", "Bank Transfer", "Direct Debit"]
+        }
+      },
+      "intents": {
+        "ReportOutageIntent": {
+          "description": "Report service outage",
+          "sample_utterances": [
+            "Report an outage",
+            "My {UtilityType} is not working",
+            "Power outage"
+          ],
+          "slots": {
+            "UtilityType": {
+              "description": "Type of service affected",
+              "slot_type": "UtilityType",
+              "required": true,
+              "prompt": "Which service is affected?"
+            },
+            "PostCode": {
+              "description": "Location postcode",
+              "slot_type": "AMAZON.PostalAddress",
+              "required": true,
+              "prompt": "What is your postcode?"
+            }
+          }
+        },
+        "PayBillIntent": {
+          "description": "Make bill payment",
+          "sample_utterances": [
+            "Pay my bill",
+            "Make a payment",
+            "I want to pay"
+          ],
+          "slots": {
+            "AccountNumber": {
+              "description": "Customer account number",
+              "slot_type": "AMAZON.Number",
+              "required": true,
+              "prompt": "What is your account number?"
+            },
+            "PaymentMethod": {
+              "description": "How to pay",
+              "slot_type": "PaymentMethod",
+              "required": true,
+              "prompt": "How would you like to pay?"
+            }
+          }
+        },
+        "ViewBillIntent": {
+          "description": "View current bill",
+          "sample_utterances": [
+            "Show my bill",
+            "What is my balance",
+            "Current bill"
+          ],
+          "slots": {
+            "AccountNumber": {
+              "description": "Customer account number",
+              "slot_type": "AMAZON.Number",
+              "required": true,
+              "prompt": "What is your account number?"
+            }
+          }
+        }
+      }
+    }
+  }
+}
