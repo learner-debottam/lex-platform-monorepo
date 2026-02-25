@@ -8,13 +8,18 @@ on:
     branches:
       - dev
   workflow_dispatch:
+    inputs:
+      enable_tf_debug:
+        description: "Enable Terraform debug logging (TF_LOG=DEBUG)"
+        required: false
+        type: boolean
+        default: false
 
 env:
   TF_WORKING_DIR: bot
   TF_CLI_ARGS_init: -input=false
   TF_CLI_ARGS_apply: -auto-approve -input=false
   TF_CLI_ARGS_plan: -input=false
-  TF_LOG: DEBUG
 
 jobs:
   lint:
@@ -22,6 +27,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Enable Terraform debug logging (optional)
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.enable_tf_debug == 'true' }}
+        run: echo "TF_LOG=DEBUG" >> "$GITHUB_ENV"
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -85,6 +94,10 @@ jobs:
       contents: read
 
     steps:
+      - name: Enable Terraform debug logging (optional)
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.enable_tf_debug == 'true' }}
+        run: echo "TF_LOG=DEBUG" >> "$GITHUB_ENV"
+
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -159,6 +172,10 @@ jobs:
       contents: read
 
     steps:
+      - name: Enable Terraform debug logging (optional)
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.enable_tf_debug == 'true' }}
+        run: echo "TF_LOG=DEBUG" >> "$GITHUB_ENV"
+
       - name: Checkout
         uses: actions/checkout@v4
 
