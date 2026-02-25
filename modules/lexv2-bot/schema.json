@@ -64,7 +64,6 @@
               "additionalProperties": {
                 "type": "object",
                 "additionalProperties": false,
-                "required": ["sample_utterances"],
                 "properties": {
                   "description": {
                     "type": "string"
