@@ -68,12 +68,12 @@ run_ajv() {
   if command -v ajv >/dev/null 2>&1; then
     ajv validate -s "${schema}" -d "${config}" --spec=draft7
   elif command -v npx >/dev/null 2>&1; then
-    npx --yes ajv-cli@8 validate -s "${schema}" -d "${config}" --spec=draft7
+    npx --yes ajv-cli validate -s "${schema}" -d "${config}" --spec=draft7
   else
     echo "ERROR: Neither 'ajv' nor 'npx' is available on PATH." >&2
     echo "Install Node.js and either:" >&2
     echo "  - npm install -g ajv-cli   # then re-run this script" >&2
-    echo "  or rely on: npx ajv-cli@8  # which this script will use automatically" >&2
+    echo "  or rely on: npx ajv-cli    # which this script will use automatically" >&2
     exit 2
   fi
 }
