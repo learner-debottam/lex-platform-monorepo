@@ -15,6 +15,11 @@
       "intents": {
         "BookRoomIntent": {
           "description": "Book a hotel room",
+          "sample_utterances": [
+            "Book a room",
+            "I want to book a hotel room",
+            "Reserve a room for tonight"
+          ],
           "slots": {
             "RoomType": {
               "description": "Type of room to book",
