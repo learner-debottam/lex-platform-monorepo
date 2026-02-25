@@ -4,6 +4,6 @@ terraform {
 
     region = ""
     bucket = ""
-    key = ""
+    key    = ""
   }
 }

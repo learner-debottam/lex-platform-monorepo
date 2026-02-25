@@ -8,7 +8,7 @@ data "aws_iam_policy_document" "lex_trust_relationship" {
   statement {
     effect = "Allow"
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["lexv2.amazonaws.com"]
     }
     actions = ["sts:AssumeRole"]
@@ -16,9 +16,9 @@ data "aws_iam_policy_document" "lex_trust_relationship" {
 }
 
 resource "aws_iam_role" "lex_role" {
-  name = "${local.bot_name}-lex-role"
-  assume_role_policy = data.aws_iam_policy_document.lex_trust_relationship.json
-  tags = var.tags
+  name                 = "${local.bot_name}-lex-role"
+  assume_role_policy   = data.aws_iam_policy_document.lex_trust_relationship.json
+  tags                 = var.tags
   max_session_duration = 43200
 }
 
@@ -33,23 +33,23 @@ resource "aws_iam_role" "lex_role" {
 #   policy_arn = "arn:aws:iam::aws:policy/AmazonLexFullAccess"
 # }
 
-data "aws_iam_policy_document" "allow_synthesize_speech"{
+data "aws_iam_policy_document" "allow_synthesize_speech" {
   statement {
-    sid = "LexActions"
+    sid    = "LexActions"
     effect = "Allow"
     actions = [
       "polly:SynthesizeSpeech"
     ]
-    resources = [ 
+    resources = [
       "arn:aws:polly:${var.aws_region}:${var.aws_account_id}:lexicon/*"
     ]
- }
+  }
 }
 
 resource "aws_iam_policy" "allow_synthesize_speech" {
-  name = "${local.bot_name}-allow-synthesize-speech-policy"
+  name   = "${local.bot_name}-allow-synthesize-speech-policy"
   policy = data.aws_iam_policy_document.allow_synthesize_speech.json
-  tags = var.tags
+  tags   = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "allow_synthesize_speech" {
@@ -57,25 +57,25 @@ resource "aws_iam_role_policy_attachment" "allow_synthesize_speech" {
   policy_arn = aws_iam_policy.allow_synthesize_speech.arn
 }
 
-data "aws_iam_policy_document" "allow_lex_cloudwatch_logging"{
+data "aws_iam_policy_document" "allow_lex_cloudwatch_logging" {
   statement {
-    sid = "AllowLexCloudWatchLogging"
+    sid    = "AllowLexCloudWatchLogging"
     effect = "Allow"
     actions = [
       "logs:CreateLogStream",
       "logs:PutLogEvents",
       "logs:CreateLogGroup"
     ]
-    resources = [ 
+    resources = [
       "arn:aws:logs:${var.aws_region}:${var.aws_account_id}:log-group:/aws/lex/*"
     ]
- }
+  }
 }
 
 resource "aws_iam_policy" "allow_lex_cloudwatch_logging" {
-  name = "${local.bot_name}-allow-lex-cloudwatch-logging-policy"
+  name   = "${local.bot_name}-allow-lex-cloudwatch-logging-policy"
   policy = data.aws_iam_policy_document.allow_lex_cloudwatch_logging.json
-  tags = var.tags
+  tags   = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "allow_lex_cloudwatch_logging" {
@@ -83,18 +83,18 @@ resource "aws_iam_role_policy_attachment" "allow_lex_cloudwatch_logging" {
   policy_arn = aws_iam_policy.allow_lex_cloudwatch_logging.arn
 }
 
-data "aws_iam_policy_document" "allow_invoke_lambdas"{
+data "aws_iam_policy_document" "allow_invoke_lambdas" {
   count = length(var.lambda_arns) > 0 ? 1 : 0
 
   statement {
-    sid = "AllowInvokeLambdas"
+    sid    = "AllowInvokeLambdas"
     effect = "Allow"
     actions = [
       "lambda:InvokeFunction",
       "lambda:InvokeAsync"
     ]
     resources = values(var.lambda_arns)
- }
+  }
 }
 
 resource "aws_iam_policy" "allow_invoke_lambdas" {
