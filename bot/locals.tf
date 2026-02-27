@@ -1,6 +1,5 @@
 locals {
   bot_config = jsondecode(
-    //file("${path.module}/examples/minimal-bot.json")
     file("${path.module}/examples/restaurant-bot.json)
   )
   tags = {
