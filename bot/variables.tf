@@ -18,3 +18,10 @@ variable "aws_account_name" {
   type        = string
 }
 
+variable "bot_config_path" {
+  description = "Relative path (from this module) to the bot configuration JSON file (e.g., examples/restaurant-bot.json)."
+  type        = string
+  default     = "examples/restaurant-bot.json"
+}
+
+

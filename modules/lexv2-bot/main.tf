@@ -33,4 +33,12 @@ resource "aws_lexv2models_bot_locale" "locales" {
   description = lookup(each.value, "description", "Locale for ${each.key}")
 
   n_lu_intent_confidence_threshold = each.value.confidence_threshold
+
+  dynamic "voice_settings" {
+    for_each = lookup(each.value, "voice_settings", null) == null ? [] : [each.value.voice_settings]
+    content {
+      voice_id = voice_settings.value.voice_id
+      engine   = lookup(voice_settings.value, "engine", null)
+    }
+  }
 }

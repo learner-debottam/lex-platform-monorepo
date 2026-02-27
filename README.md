@@ -48,9 +48,9 @@ This repository provides a **reusable, opinionated Terraform template** for prov
 
 - **`bot/`**
   - `main.tf` – Root Terraform entrypoint for the Dev bot, calls the module.
-  - `variables.tf` – Input variables for Dev deployment (environment, region, account, etc.).
-  - `locals.tf` – Loads and decodes the bot JSON configuration and defines common tags.
-  - `examples/minimal-bot.json` – Minimal **example bot configuration** (one locale, no intents/slots).
+  - `variables.tf` – Input variables for Dev deployment (environment, region, account, bot_config_path, etc.).
+  - `locals.tf` – Loads and decodes the bot JSON configuration (path controlled by `bot_config_path`) and defines common tags.
+  - `examples/*.json` – Multiple **example bot configurations** (minimal, restaurant, booking, e‑commerce, etc.).
   - `validate_bot_config.sh` – Shell script to **validate any bot JSON** against the schema.
   - `validate_bot_config.py` – Python alternative for JSON validation (optional).
 
@@ -157,16 +157,17 @@ The module is driven by a single JSON document per bot, for example:
 
 - **Locales (`locales.<locale_id>`)**
   - **Required**: `confidence_threshold` (0–1).
-  - **Optional**: `description`, `slot_types`, `intents`.
+  - **Optional**: `description`, `slot_types`, `intents`, `voice_settings`.
   - If `slot_types` is missing/empty → **no custom slot types** are created for that locale.
   - If `intents` is missing/empty → **no intents or slots** are created for that locale.
+  - If `voice_settings` is provided, the locale will be configured with the specified Amazon Polly voice.
 
 - **Slot types (`slot_types.<name>`)**
   - **Required**: `values` (non‑empty list of strings).
   - **Optional**: `description`.
 
 - **Intents (`intents.<name>`)**
-  - **Required**: `sample_utterances` (non‑empty list of strings).
+  - **Optional but recommended**: `sample_utterances` (non‑empty list of strings).
   - **Optional**:
     - `description`
     - `fulfillment_lambda_name` (string; must match a key in `lambda_arns` when you want Lex to call Lambda)
@@ -264,7 +265,7 @@ Exit codes:
 - **Bot and locales**
   - `locals.bot_name` = `${bot_config.name}-${environment}`.
   - `aws_lexv2models_bot` uses `bot_config.description` (if set) and `bot_config.idle_session_ttl`.
-  - `aws_lexv2models_bot_locale` is created for each locale in `bot_config.locales`.
+  - `aws_lexv2models_bot_locale` is created for each locale in `bot_config.locales` and optionally configures **voice settings** when present in the JSON.
 
 - **Slot types**
   - `locals.slot_types` flattens `locales.*.slot_types` into a list.
@@ -327,7 +328,7 @@ The `bot` folder is a **concrete Dev configuration** that calls the module.
   ```hcl
   locals {
     bot_config = jsondecode(
-      file("${path.module}/examples/minimal-bot.json")
+      file("${path.module}/${var.bot_config_path}")
     )
     tags = {
       MANAGED_BY      = "Terraform"
@@ -353,7 +354,7 @@ The `bot` folder is a **concrete Dev configuration** that calls the module.
   ```
 
 - **`bot/variables.tf`**
-  - Declares `environment`, `aws_region`, `aws_account_id`, `aws_account_name`.
+  - Declares `environment`, `aws_region`, `aws_account_id`, `aws_account_name`, and `bot_config_path`.
 
 This makes it easy to run Terraform for Dev directly from `bot/`.
 
@@ -372,7 +373,7 @@ This makes it easy to run Terraform for Dev directly from `bot/`.
 1. **Validate JSON config** (recommended)
 
    ```bash
-   ./bot/validate_bot_config.sh --config bot/examples/minimal-bot.json
+   ./bot/validate_bot_config.sh --config bot/examples/restaurant-bot.json
    ```
 
 2. **Initialize and plan (from `bot/`)**
@@ -387,7 +388,8 @@ This makes it easy to run Terraform for Dev directly from `bot/`.
      -var "environment=dev" \
      -var "aws_region=eu-west-2" \
      -var "aws_account_id=123456789012" \
-     -var "aws_account_name=my-dev-account"
+     -var "aws_account_name=my-dev-account" \
+     -var "bot_config_path=examples/restaurant-bot.json"
    ```
 
 3. **Apply**
@@ -397,7 +399,8 @@ This makes it easy to run Terraform for Dev directly from `bot/`.
      -var "environment=dev" \
      -var "aws_region=eu-west-2" \
      -var "aws_account_id=123456789012" \
-     -var "aws_account_name=my-dev-account"
+     -var "aws_account_name=my-dev-account" \
+     -var "bot_config_path=examples/restaurant-bot.json"
    ```
 
 ---
@@ -436,6 +439,7 @@ The workflow is defined in **`.github/workflows/terraform-dev.yml`** and is trig
   - Downloads the `tfplan-dev` artifact.
   - Runs `terraform init` then `terraform apply tfplan-dev` in `bot/`.
   - Uses a GitHub `environment: dev` to allow environment‑level protections (e.g. required approvals).
+  - When triggered manually via **workflow dispatch**, you can enable a checkbox to turn on `TF_LOG=DEBUG` for Terraform commands (useful for deep debugging).
 
 ### Required GitHub Secrets for Dev
 

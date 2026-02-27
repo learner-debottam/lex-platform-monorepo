@@ -1,7 +1,6 @@
 locals {
   bot_config = jsondecode(
-    //file("${path.module}/examples/minimal-bot.json")
-    file("${path.module}/examples/restaurant-bot.json")
+    file("${path.module}/${var.bot_config_path}")
   )
   tags = {
     MANAGED_BY       = "Terraform"
